@@ -4,26 +4,23 @@ Python script to update GNSS metadata fields
 Intructions to run the script.
 1. Install ArcGIS API for Python using Conda (https://developers.arcgis.com/python/guide/install-and-set-up/).
 2. Once installed start command prompt (with adminstrator rights). 
-3. Navigate to the directory where Anaconfa was installed to as part of step1.
-4. Once under Anaconda directory type python keyword to check if python has been installed correctly.
-5. To run the script type (Example)
-6. C:\Continuum\Anaconda3>python C:\Continuum\Anaconda3\Scripts\UpdateGNSSSMetadata.py -u nitroadmin -p nitroadmin -url https://nitro.maps.arcgis.com GNSSMetadataFields
-7. Followed by the python keyword is the script location then there are the following optional parameters (but marked as required) -u username -p password -url org url and finally the search string.
-8. help can be accessed via -h flag.
+3. Navigate to the directory where Anaconda was installed and check if Python was installed successfully.
+
+![image](https://cloud.githubusercontent.com/assets/26557666/24469021/ee2dbbee-146e-11e7-8984-00cbf690b5ca.png)
+
+4. Exit out of Python's interactive shell.
 
 
-9. C:\Continuum\Anaconda3>python C:\Continuum\Anaconda3\Scripts\UpdateGNSSSMetadata.py -h
-usage: Generate domains for GNSS metadata fields (FixType, StationId, Number of Satellites
 
-positional arguments:
-  itemId                List of ItemId
+5. Script usage help. Information on required and optional parameters can be obatined via -h flag
 
-optional arguments:
-  -h, --help            show this help message and exit
-  -u USERNAME, --username USERNAME
-                        AGOL username
-  -p PASSWORD, --password PASSWORD
-                        AGOL password
-  -url URL, --url URL   AGOL url
-  -r REMOVE, --remove REMOVE
-                        Set true if GNSS metadata fields need to be removed
+![image](https://cloud.githubusercontent.com/assets/26557666/24468620/af038134-146d-11e7-9188-9635e9b4c407.png)
+
+
+
+6. Run the script with the required arguments 
+
+![image](https://cloud.githubusercontent.com/assets/26557666/24468810/50a42264-146e-11e7-93c3-6bc4f8f92603.png)
+
+
+
