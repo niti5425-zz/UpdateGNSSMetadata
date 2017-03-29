@@ -252,8 +252,6 @@ def searchItems_addGNSSMetadataFields():
                                {'name': 'ESRIGNSS_VDOP'}, {'name': 'ESRIGNSS_CORRECTIONAGE'},
                                {'name': 'ESRIGNSS_FIXTYPE'}, {'name': 'ESRIGNSS_STATIONID'}, \
                                {'name': 'ESRIGNSS_NUMSATS'}]}
-            print (gnssMetadataFields['fields'])
-            
 
             # Get index of the substring /services/ to construct admin url.
             servicesKeywordIndex = featureServiceUrl.index('/services/')
