@@ -11,13 +11,13 @@ from arcgis.gis import GIS
 def parseArguments():
     global args_parser
     parser = argparse.ArgumentParser(
-        usage='Generate domains for GNSS metadata fields (FixType, StationId, Number of Satellites')
-    parser.add_argument('-u', '--username', required=True, type=str, help=' AGOL username')
-    parser.add_argument('-p', '--password', required=True, type=str, help='AGOL password')
-    parser.add_argument('-url', '--url', required=True, type=str, help='AGOL url')
+        usage='Add/Update GNSS metadate fields')
+    parser.add_argument('-u', '--username', required=True, type=str, help='Organization username')
+    parser.add_argument('-p', '--password', required=True, type=str, help='Organization password')
+    parser.add_argument('-url', '--url', required=True, type=str, help='Organization url')
     parser.add_argument('-r', '--remove', default=False, type=bool,
-                        help='Set true if GNSS metadata fields need to be removed')
-    parser.add_argument('itemId', type=str, nargs="+", help='List of ItemId ')
+                        help='Set True if GNSS metadata fields need to be removed')
+    parser.add_argument('itemId', type=str, nargs="+", help='Search string')
     args_parser = parser.parse_args()
 
 
@@ -67,7 +67,17 @@ def searchItems_addGNSSMetadataFields():
             operations = []
 
             # Add/Update GNSS Metadata fields
-            if not args_parser.remove:
+            if not args_parser.remove:                
+
+                # ESRIGNSS_FIXDATETIME
+                fixTimeField = [field for field in featureLayerFields if field['name'] == 'ESRIGNSS_FIXDATETIME']
+
+                if not fixTimeField:
+                    gnssMetadataFields['fields'].append({'name': 'ESRIGNSS_FIXDATETIME', 'type': 'esriFieldTypeDate', \
+                                                         'alias': 'Fix Time', 'sqlType': 'sqlTypeOther',
+                                                         'length': 0, 'nullable': True, 'editable': True, \
+                                                         'domain': None, 'defaultValue': None})
+                
 
                 # ESRIGNSS_RECEIVER
                 recieverField = [field for field in featureLayerFields if field['name'] == 'ESRIGNSS_RECEIVER']
@@ -175,6 +185,7 @@ def searchItems_addGNSSMetadataFields():
                                                          {'name': 'RTK Fixed', 'code': 4},
                                                          {'name': 'RTK Float', 'code': 5}]}
                         featureLayerJson['fields'][fixtypeFieldIndex]['domain'] = fixTypeDomain
+                    
                 else:
                     gnssMetadataFields['fields'].append({'name': 'ESRIGNSS_FIXTYPE', 'type': 'esriFieldTypeInteger', \
                                                          'alias': 'Fix Type', 'sqlType': 'sqlTypeOther',
@@ -231,17 +242,18 @@ def searchItems_addGNSSMetadataFields():
                 if (len(gnssMetadataFields[
                             'fields']) + initialFeatureLayerFieldsCount) > initialFeatureLayerFieldsCount:
                     operations.append('addToDefinition')
-
             else:
                 operations.append('deleteFromDefinition')
                 gnssMetadataFields = {
-                    'fields': [{'name': 'ESRIGNSS_RECEIVER'}, {'name': 'ESRIGNSS_H_RMS'}, {'name': 'ESRIGNSS_V_RMS'},
+                    'fields': [{'name': 'ESRIGNSS_FIXDATETIME'},{'name': 'ESRIGNSS_RECEIVER'}, {'name': 'ESRIGNSS_H_RMS'}, {'name': 'ESRIGNSS_V_RMS'},
                                {'name': 'ESRIGNSS_LATITUDE'}, \
                                {'name': 'ESRIGNSS_LONGITUDE'}, {'name': 'ESRIGNSS_ALTITUDE'}, {'name': 'ESRIGNSS_PDOP'},
                                {'name': 'ESRIGNSS_HDOP'}, \
                                {'name': 'ESRIGNSS_VDOP'}, {'name': 'ESRIGNSS_CORRECTIONAGE'},
                                {'name': 'ESRIGNSS_FIXTYPE'}, {'name': 'ESRIGNSS_STATIONID'}, \
                                {'name': 'ESRIGNSS_NUMSATS'}]}
+            print (gnssMetadataFields['fields'])
+            
 
             # Get index of the substring /services/ to construct admin url.
             servicesKeywordIndex = featureServiceUrl.index('/services/')
